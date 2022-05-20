@@ -15,8 +15,8 @@ type Genre {
 `;
 
 const driver = neo4j.driver(
-    "bolt://3.238.91.35:7687",
-    neo4j.auth.basic("neo4j", "miles-bud-girl")
+    "bolt://54.208.71.170:7687",
+    neo4j.auth.basic("neo4j", "being-nylons-sole")
 );
 
 const neoSchema = new Neo4jGraphQL({typeDefs, driver});

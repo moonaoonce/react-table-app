@@ -1,29 +1,21 @@
-import { useMutation, gql } from "@apollo/client";
-import React from "react";
+import React from 'react'
+import { gql, useMutation } from "@apollo/client"
+import { EditableRow } from './EditableRow';
 
-const MUTATION_MOVIE = gql`
-mutation DeleteMovies($where: MovieWhere) {
-    deleteMovies(where: $where) {
-      bookmark
+const CREATE_MOVIE = gql`
+createMovies(input: $input) {
+    movies {
+      movieId
+      title
+      plot
     }
   }
+}
 `;
 
-// const CREATE_MOVIE = gql`
-// createMovies(input: $input) {
-//     movies {
-//       movieId
-//       title
-//       plot
-//     }
-//   }
-// }
-// `;
-
-function MovieList(props) {
+export const CreateMovies = (props) => {
     const { movies } = props;
-    const [deleteMovies, {error, loading}] = useMutation(MUTATION_MOVIE);
-    // const [createMovies] = useMutation(CREATE_MOVIE);
+    const [createMovies, {loading, error}] = useMutation(CREATE_MOVIE);
 
     if (loading) return <div>Delete Movie</div>
     if (error) return <div>Delete error ${error.message}</div>
@@ -39,7 +31,8 @@ function MovieList(props) {
                             <td>{m.title}</td>
                             <td>{m.plot}</td>
                             <td>
-                                <button onClick={() => deleteMovies({variables: {where: {movieId: m.movieId}}})}>Delete</button>
+                                <EditableRow />
+                                <button onClick={() => createMovies({variables: {where: {movieId: m.movieId, title: m.title, plot: m.plot}}})}>Add Movie</button>
                             </td>
                         </tr>
                         )
@@ -49,5 +42,3 @@ function MovieList(props) {
         </div>
     );
 }
-
-export default MovieList;
